@@ -1,0 +1,58 @@
+version: "2"
+
+services:
+  heimdall: # Dashboard for all you Apps
+    image: linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=1001
+      - PGID=100
+      - TZ=Europe/Berlin
+    volumes:
+      - ${PATH_TO_DISK}/appdata/heimdall:/config
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+
+  portainer: # UI based management of Docker
+    image: portainer/portainer
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  plex: # Plex Media Server
+    image: linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1001
+      - PGID=100
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+      #- PLEX_CLAIM= #optional
+    volumes:
+      - ${PATH_TO_DISK}/appdata/plex:/config
+      - ${PATH_TO_DISK}/media/tv:/tv
+      - ${PATH_TO_DISK}/media/movies:/movies
+      - ${PATH_TO_DISK}/media/music:/music
+      - ${PATH_TO_DISK}/appdata/plex:/transcode
+    restart: unless-stopped
+
+  cloudcmd: # UI based filemanager
+    image: team0/rpi-cloudcmd # arm-based docker images for cloudcmd
+    container_name: cloudcmd
+    ports:
+      - 8000:8000
+    volumes:
+      - ~:/root
+      - /:/mnt/fs
+
+volumes:
+  portainer_data:
