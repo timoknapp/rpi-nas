@@ -5,8 +5,8 @@ services:
     image: linuxserver/heimdall
     container_name: heimdall
     environment:
-      - PUID=1001
-      - PGID=100
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
       - TZ=Europe/Berlin
     volumes:
       - ${PATH_TO_DISK}/appdata/heimdall:/config
@@ -32,8 +32,8 @@ services:
     container_name: plex
     network_mode: host
     environment:
-      - PUID=1001
-      - PGID=100
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
       - VERSION=docker
       - UMASK_SET=022 #optional
       #- PLEX_CLAIM= #optional
