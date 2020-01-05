@@ -1,7 +1,7 @@
 # Raspberry PI NAS
 Setup your own NAS on a Raspberry Pi
 
-![dashboard](dashboard.png)
+![dashboard](dashboard.jpg)
 
 ## Prerequisite
 - Docker
