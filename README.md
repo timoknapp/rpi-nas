@@ -18,6 +18,10 @@ Replace Placeholders in docker-compose file:
 docker-compose up
 ```
 
+Opening a browser with the IP of your PI should show Heimdall dashboard. A configured dashboard would like like this:
+![dashboard](dashboard.png)
+
+
 ## Components
 - Heimdall Dashboard
 - Plex
