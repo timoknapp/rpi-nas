@@ -1,6 +1,8 @@
 # Raspberry PI NAS
 Setup your own NAS on a Raspberry Pi
 
+![dashboard](dashboard.png)
+
 ## Prerequisite
 - Docker
 - OpenMediaVault (if wanted) [here](https://www.openmediavault.org/)
@@ -17,10 +19,7 @@ Replace Placeholders in docker-compose file:
 ```
 docker-compose up
 ```
-
-Opening a browser with the IP of your PI should show Heimdall dashboard. A configured dashboard would like like this:
-![dashboard](dashboard.png)
-
+Opening a browser with the IP of your PI should show the Heimdall dashboard. A configured dashboard would like like one above.
 
 ## Components
 - Heimdall Dashboard
