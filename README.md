@@ -23,6 +23,7 @@ Opening a browser with the IP of your PI should show the Heimdall dashboard. A c
 
 ## Components
 Following shows the applications contained by the `docker-compose.yml` related to their exposed Ports on the host.
+
 | Application | Port |
 | ------------| ---- |
 | Heimdall Dashboard | 80/443 |
