@@ -24,9 +24,9 @@ Opening a browser with the IP of your PI should show the Heimdall dashboard. A c
 ## Components
 Following show all the applications of the `docker-compose.yml` related to their exposed ports on the host.
 
-| Application | Port |
-| ------------| ---- |
-| Heimdall Dashboard | 80/443 |
-| Plex | 32400 |
-| Portainer | 9000 |
-| CloudCmd | 8008 |
+| Application | Port | URL |
+| ------------| ---- | --- |
+| Heimdall Dashboard | 80, 443 | http://localhost, https://localhost |
+| Plex | 32400 | http://localhost:32400/web/index.html |
+| Portainer | 9000 | http://localhost:9000 |
+| CloudCmd | 8008 | http://localhost:8008 |
