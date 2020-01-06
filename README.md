@@ -22,7 +22,10 @@ docker-compose up
 Opening a browser with the IP of your PI should show the Heimdall dashboard. A configured dashboard would like like one above.
 
 ## Components
-- Heimdall Dashboard
-- Plex
-- Portainer
-- CloudCmd
+Following shows the applications contained by the `docker-compose.yml` related to their exposed Ports on the host.
+| Application | Port |
+| ------------| ---- |
+| Heimdall Dashboard | 80/443 |
+| Plex | 32400 |
+| Portainer | 9000 |
+| CloudCmd | 8008 |
