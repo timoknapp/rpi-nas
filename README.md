@@ -22,7 +22,7 @@ docker-compose up
 Opening a browser with the IP of your PI should show the Heimdall dashboard. A configured dashboard would like like one above.
 
 ## Components
-Following shows the applications contained by the `docker-compose.yml` related to their exposed Ports on the host.
+Following show all the applications of the `docker-compose.yml` related to their exposed ports on the host.
 
 | Application | Port |
 | ------------| ---- |
