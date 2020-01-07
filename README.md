@@ -30,3 +30,4 @@ Following show all the applications of the `docker-compose.yml` related to their
 | Plex | 32400 | http://localhost:32400/web/index.html |
 | Portainer | 9000 | http://localhost:9000 |
 | CloudCmd | 8008 | http://localhost:8008 |
+| pyLoad | 8088 | http://localhost:8088 |
