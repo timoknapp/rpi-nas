@@ -26,8 +26,8 @@ Following show all the applications of the `docker-compose.yml` related to their
 
 | Application | Port | URL |
 | ------------| ---- | --- |
-| Heimdall Dashboard | 80, 443 | http://localhost, https://localhost |
-| Plex | 32400 | http://localhost:32400/web/index.html |
-| Portainer | 9000 | http://localhost:9000 |
-| CloudCmd | 8008 | http://localhost:8008 |
-| pyLoad | 8088 | http://localhost:8088 |
+| [Heimdall Dashboard](https://github.com/linuxserver/Heimdall) | 80, 443 | http://localhost, https://localhost |
+| [Plex](https://github.com/linuxserver/docker-plex) | 32400 | http://localhost:32400/web/index.html |
+| [Portainer](https://github.com/portainer/portainer) | 9000 | http://localhost:9000 |
+| [CloudCmd](https://github.com/coderaiser/cloudcmd) | 8008 | http://localhost:8008 |
+| [pyLoad](https://github.com/linuxserver/docker-pyload) | 8088 | http://localhost:8088 |
