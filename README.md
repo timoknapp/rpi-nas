@@ -31,3 +31,8 @@ Following show all the applications of the `docker-compose.yml` related to their
 | [Portainer](https://github.com/portainer/portainer) | 9000 | http://localhost:9000 |
 | [CloudCmd](https://github.com/coderaiser/cloudcmd) | 8008 | http://localhost:8008 |
 | [pyLoad](https://github.com/linuxserver/docker-pyload) | 8088 | http://localhost:8088 |
+
+## Contributing
+Feel free to modify, add, fork 
+
+[simply](CONTRIBUTING.md)
