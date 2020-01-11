@@ -33,6 +33,4 @@ Following show all the applications of the `docker-compose.yml` related to their
 | [pyLoad](https://github.com/linuxserver/docker-pyload) | 8088 | http://localhost:8088 |
 
 ## Contributing
-Feel free to modify, add, fork 
-
-[simply](CONTRIBUTING.md)
+Feel free to modify, add, fork: [simply](CONTRIBUTING.md)
