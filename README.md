@@ -4,22 +4,42 @@ Setup your own NAS on a Raspberry Pi
 ![dashboard](dashboard.jpg)
 
 ## Prerequisite
-- Docker
 - OpenMediaVault (if wanted) [here](https://www.openmediavault.org/)
+- Docker
+
+## Install openmediavault
+
+Either you install a Debian Linux or directy install the `openmediavault`
+image following the corresponding [installation guide](https://openmediavault.readthedocs.io/en/latest/installation/index.html).
+
+## Install Docker
+
+Usually Docker can installed through `openmediavault`, but sometimes there are issues during the setup. Therefore I recommend to install it yourself following a simple [guide](https://dev.to/rohansawant/installing-docker-and-docker-compose-on-the-raspberry-pi-in-5-simple-steps-3mgl).
 
 ## Getting Started
+All following commands need to be run from your Raspberry PI. Either connect via `SSH` or direct access.
+
+### 1. Clone Repository
 ```
 git pull https://github.com/tea-mo903/rpi-nas.git
 cd rpi-nas
 ```
+
+
+### 2. Configure your Setup
 Replace Placeholders in docker-compose file:
 - ${PATH_TO_DISK} with related Path on your PI
-- ${USER_ID} with uid of ``id `whoami` ``
-- ${GROUP_ID} with gid of ``id `whoami` ``
+- Execute the following command on your PI:  ``id `whoami` ``
+    - Replace ${USER_ID} with the integer value of `uid`.
+    - Replace ${GROUP_ID} with the integer value of `gid`.
+
+### 3. Run Compose-Stack
 ```
 docker-compose up
 ```
-Opening a browser with the IP of your PI should show the Heimdall dashboard. A configured dashboard would like like one above.
+
+### 4. Try it out
+Opening a browser with the IP of your PI should show now the Heimdall dashboard. A configured dashboard would like like one on top. (e.g. `http://IP-OF-YOUR-PI`)
 
 ## Components
 Following show all the applications of the `docker-compose.yml` related to their exposed ports on the host.
