@@ -69,5 +69,27 @@ services:
       - 7227:7227 #optional
     restart: unless-stopped
 
+  postgres: # DB for Nextcloud
+    image: postgres
+    restart: always
+    volumes:
+      - nextcloud_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DATABASE=nextcloud
+      - POSTGRES_USER=nextcloud
+
+  nextcloud: # Nextcloud
+    image: nextcloud
+    ports:
+      - 8081:80
+    links:
+      - postgres
+    volumes:
+      - nextcloud:/var/www/html
+    restart: unless-stopped
+
 volumes:
   portainer_data:
+  nextcloud_db:
+  nextcloud:

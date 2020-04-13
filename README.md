@@ -33,6 +33,8 @@ Replace Placeholders in docker-compose file:
     - Replace ${USER_ID} with the integer value of `uid`.
     - Replace ${GROUP_ID} with the integer value of `gid`.
 
+- Set password `postgres` user
+
 ### 3. Run Compose-Stack
 ```
 docker-compose up
@@ -51,6 +53,7 @@ Following show all the applications of the `docker-compose.yml` related to their
 | [Portainer](https://github.com/portainer/portainer) | 9000 | http://localhost:9000 |
 | [CloudCmd](https://github.com/coderaiser/cloudcmd) | 8008 | http://localhost:8008 |
 | [pyLoad](https://github.com/linuxserver/docker-pyload) | 8088 | http://localhost:8088 |
+| [Nextcloud](https://github.com/nextcloud/server) | 8081 | http://localhost:8081 |
 
 ## Contributing
 Feel free to modify, add, fork: [simply](CONTRIBUTING.md)
