@@ -69,11 +69,12 @@ services:
       - 7227:7227 #optional
     restart: unless-stopped
 
-  postgres: # DB for Nextcloud
+  nextcloud_postgres: # DB for Nextcloud
     image: postgres
+    container_name: nextcloud_postgres
     restart: always
     volumes:
-      - nextcloud_db:/var/lib/postgresql/data
+      - nextcloud_postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=
       - POSTGRES_DATABASE=nextcloud
@@ -81,6 +82,7 @@ services:
 
   nextcloud: # Nextcloud
     image: nextcloud
+    container_name: nextcloud
     ports:
       - 8081:80
     links:
@@ -89,7 +91,18 @@ services:
       - nextcloud:/var/www/html
     restart: unless-stopped
 
+  homeassistant: # homeassistant
+    image: homeassistant/raspberrypi4-homeassistant:stable
+    container_name: home-assistant
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - ${PATH_TO_DISK}/appdata/homeassistant:/config
+    ports:
+      - 8123:8123
+    restart: unless-stopped
+
 volumes:
   portainer_data:
-  nextcloud_db:
+  nextcloud_postgres:
   nextcloud:
