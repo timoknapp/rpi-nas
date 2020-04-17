@@ -1,7 +1,14 @@
 # Raspberry PI NAS
 Setup your own NAS on a Raspberry Pi
 
-![dashboard](dashboard.jpg)
+## Preview
+### Dashboard
+
+![dashboard](screenshots/dashboard.jpg)
+
+### Monitoring
+
+![grafana](screenshots/grafana.jpg)
 
 ## Prerequisite
 - OpenMediaVault (if wanted) [here](https://www.openmediavault.org/)
