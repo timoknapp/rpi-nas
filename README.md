@@ -17,7 +17,7 @@ Setup your own NAS on a Raspberry Pi
 ## Install openmediavault
 
 Either you install a Debian Linux or directy install the `openmediavault`
-image following the corresponding [installation guide](https://openmediavault.readthedocs.io/en/latest/installation/index.html).
+image following the corresponding [installation guide](https://openmediavault.readthedocs.io/en/latest/installation/index.html) or go directly to the [manual for Raspberry PI](https://github.com/OpenMediaVault-Plugin-Developers/docs/blob/master/Adden-B-Installing_OMV5_on_an%20R-PI.pdf).
 
 ## Install Docker
 
