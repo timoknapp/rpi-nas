@@ -21,7 +21,7 @@ image following the corresponding [installation guide](https://openmediavault.re
 
 ## Install Docker
 
-Usually Docker can installed through `openmediavault`, but sometimes there are issues during the setup. Therefore I recommend to install it yourself following a simple [guide](https://dev.to/rohansawant/installing-docker-and-docker-compose-on-the-raspberry-pi-in-5-simple-steps-3mgl).
+Usually Docker can be installed through `openmediavault`, but sometimes there are issues during the setup. Therefore I recommend to install it yourself following a simple [guide](https://dev.to/rohansawant/installing-docker-and-docker-compose-on-the-raspberry-pi-in-5-simple-steps-3mgl).
 
 ## Getting Started
 All following commands need to be run from your Raspberry PI. Either connect via `SSH` or direct access.
