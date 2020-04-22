@@ -61,10 +61,12 @@ Following show all the applications of the `docker-compose.yml` related to their
 | [CloudCmd](https://github.com/coderaiser/cloudcmd) | 8008 | http://localhost:8008 |
 | [pyLoad](https://github.com/linuxserver/docker-pyload) | 8088 | http://localhost:8088 |
 | [Nextcloud](https://github.com/nextcloud/server) | 8081 | http://localhost:8081 |
-| [Home-Assistant](https://github.com/home-assistant/core) | 8123 | http://localhost:8123 |
+| [Home-Assistant](https://github.com/home-assistant/core)(1) | 8123 | http://localhost:8123 |
 | [Grafana](https://github.com/grafana/grafana) | 3000 | http://localhost:3000 <br>runs in influx network |
 | [InfluxDB](https://github.com/influxdata/influxdb) | - | runs in influx network |
 | [Telegraf](https://github.com/influxdata/telegraf) | - | runs in influx network |
+
+1. In order to expose your external devices such as Zigbee/Z-Wave dongles to the Home Assistant container, you can follow the guide [here](https://www.home-assistant.io/docs/installation/docker/#exposing-devices)
 
 ## Contributing
 Feel free to modify, add, fork: [simply](CONTRIBUTING.md)
