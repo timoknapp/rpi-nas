@@ -86,7 +86,7 @@ services:
     ports:
       - 8081:80
     links:
-      - postgres
+      - nextcloud_postgres
     volumes:
       - nextcloud:/var/www/html
     restart: unless-stopped
