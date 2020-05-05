@@ -28,7 +28,7 @@ All following commands need to be run from your Raspberry PI. Either connect via
 
 ### 1. Clone Repository
 ```
-git pull https://github.com/tea-mo903/rpi-nas.git
+git pull https://github.com/timoknapp/rpi-nas.git
 cd rpi-nas
 ```
 
