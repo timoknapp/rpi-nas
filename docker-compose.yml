@@ -139,6 +139,17 @@ services:
       - grafana-storage:/var/lib/grafana
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
+    
+  speedtest:
+    image: kjake/internet-speedtest-docker:speedtest
+    container_name: speedtest
+    depends_on:
+      - influxdb
+    networks:
+      - influxdb
+    environment:
+      - TEST_INTERVAL=3600
+    restart: unless-stopped
 
 volumes:
   portainer_data:
