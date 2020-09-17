@@ -65,8 +65,9 @@ Following show all the applications of the `docker-compose.yml` related to their
 | [Grafana](https://github.com/grafana/grafana) | 3000 | http://localhost:3000 <br>runs in influx network |
 | [InfluxDB](https://github.com/influxdata/influxdb) | - | runs in influx network |
 | [Telegraf](https://github.com/influxdata/telegraf) | - | runs in influx network |
+| [Internet Speedtest](https://github.com/kjake/internet-speedtest-docker) | - | runs in influx network |
 
-1. In order to expose your external devices such as Zigbee/Z-Wave dongles to the Home Assistant container, you can follow the guide [here](https://www.home-assistant.io/docs/installation/docker/#exposing-devices)
+1. In order to expose your external devices using Zigbee/Z-Wave dongles to the Home Assistant container, you can read this [guide](https://www.home-assistant.io/docs/installation/docker/#exposing-devices)
 
 ## Contributing
 Feel free to modify, add, fork: [simply](CONTRIBUTING.md)
