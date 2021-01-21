@@ -46,7 +46,7 @@ services:
     restart: unless-stopped
 
   cloudcmd: # UI based filemanager
-    image: team0/rpi-cloudcmd # arm-based docker images for cloudcmd
+    image: coderaiser/cloudcmd:latest-alpine
     container_name: cloudcmd
     ports:
       - 8008:8000
