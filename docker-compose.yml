@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   portainer: # UI based management of Docker
-    image: portainer/portainer
+    image: portainer/portainer-ce
     container_name: portainer
     command: -H unix:///var/run/docker.sock
     restart: unless-stopped
