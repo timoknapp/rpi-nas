@@ -88,7 +88,7 @@ services:
     links:
       - nextcloud_postgres
     volumes:
-      - nextcloud:/var/www/html
+      - ${PATH_TO_DISK}/nextcloud:/var/www/html
     restart: unless-stopped
 
   homeassistant: # homeassistant
