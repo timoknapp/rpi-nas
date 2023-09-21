@@ -126,8 +126,6 @@ More documentation can be found [here](https://raspberrypi-guide.github.io/files
 
 ### Setup SMB Server
 
-More documentation can be found [here](https://pimylifeup.com/raspberry-pi-samba/) and [here](https://www.jeffgeerling.com/blog/2021/htgwa-create-samba-smb-share-on-raspberry-pi).
-
 ```bash
 sudo apt-get update
 sudo apt-get upgrade
@@ -162,9 +160,9 @@ sudo smbpasswd -a $USER
 sudo systemctl restart smbd
 ```
 
-### Setup TimeMachine Share
+More documentation can be found [here](https://pimylifeup.com/raspberry-pi-samba/) and [here](https://www.jeffgeerling.com/blog/2021/htgwa-create-samba-smb-share-on-raspberry-pi).
 
-More documentation can be found [here](https://ovechkin.xyz/blog/2021-12-13-using-raspberry-pi-for-time-machine).
+### Setup TimeMachine Share
 
 ```bash
 sudo nano /etc/avahi/services/samba.service
@@ -195,7 +193,7 @@ sudo nano /etc/avahi/services/samba.service
 sudo systemctl restart avahi-daemon
 ```
 
-After modifying the samba.service file, the TimeMachine share should be visible in the Finder.
+More documentation can be found [here](https://ovechkin.xyz/blog/2021-12-13-using-raspberry-pi-for-time-machine). After modifying the samba.service file, the TimeMachine share should be visible in the Finder.
 
 ### Other useful things
 
@@ -206,17 +204,31 @@ After modifying the samba.service file, the TimeMachine share should be visible 
 sudo apt install hd-idle
 # Configure hd-idle
 sudo nano /etc/default/hd-idle
-  # Change line according to your amount of disks. The following line will set the idle time to 10 minutes. Save File afterwards.
-  HD_IDLE_OPTS="-i 0 -a sda -i 600 -a sdc -i 600 -a sdd -i 600"
+
+# Change line according to your available disks. Replace X with the disk letter.
+# The following line will set the default to 0 and the custom idle time for disk sdX to 8 minutes. Save File afterwards.
+HD_IDLE_OPTS="-i 0 -a sdX -i 480 -l /var/log/hd-idle.log"
+
 # Restart hd-idle
 sudo systemctl restart hd-idle
+
+# Check if hd-idle is running
+systemctl status hd-idle
 ```
 
 More documentation can be found [here](https://www.htpcguides.com/spin-down-and-manage-hard-drive-power-on-raspberry-pi/)
 
 #### Log2Ram
 
-- [Log2Ram](https://github.com/azlux/log2ram)
+```bash
+sudo apt update
+sudo apt install log2ram
+
+# Check if log2ram is running (after reboot!)
+systemctl status log2ram
+```
+
+More documentation can be found [here](https://github.com/azlux/log2ram).
 
 #### Check Disk Utilization
 
@@ -234,24 +246,16 @@ I recommend to install it yourself following a simple [guide](https://dev.to/roh
 
 All following commands need to be run from your Raspberry PI. Either connect via `SSH` or direct access.
 
-Minimal Docker Setup:
-
-- Portainer
-- Pihole
-- Homebridge
-- pyload
-- deconz/conbee
-
 #### 1. Clone Repository
 
 ```bash
-git pull https://github.com/timoknapp/rpi-nas.git
+git clone https://github.com/timoknapp/rpi-nas.git
 cd rpi-nas
 ```
 
 #### 2. Configure your Setup
 
-Replace Placeholders in docker-compose file:
+Replace Placeholders in `docker-compose.yml` file:
 
 - ${PATH_TO_DISK} with related Path on your PI
 - Execute the following command on your PI:  ``id `whoami` ``
@@ -274,21 +278,26 @@ Opening a browser with the IP of your PI should show now the Heimdall dashboard.
 
 Following show all the applications of the `docker-compose.yml` related to their exposed ports on the host.
 
-| Application | Port | URL |
-| ------------| ---- | --- |
-| [Heimdall Dashboard](https://github.com/linuxserver/Heimdall) | 80, 443 | http://localhost, https://localhost |
-| [Plex](https://github.com/linuxserver/docker-plex) | 32400 | http://localhost:32400/web/index.html |
-| [Portainer](https://github.com/portainer/portainer) | 9000 | http://localhost:9000 |
-| [CloudCmd](https://github.com/coderaiser/cloudcmd) | 8008 | http://localhost:8008 |
-| [pyLoad](https://github.com/linuxserver/docker-pyload) | 8088 | http://localhost:8088 |
-| [Nextcloud](https://github.com/nextcloud/server) | 8081 | http://localhost:8081 |
-| [Home-Assistant](https://github.com/home-assistant/core)(1) | 8123 | http://localhost:8123 |
-| [Grafana](https://github.com/grafana/grafana) | 3000 | http://localhost:3000 <br>runs in influx network |
-| [InfluxDB](https://github.com/influxdata/influxdb) | - | runs in influx network |
-| [Telegraf](https://github.com/influxdata/telegraf) | - | runs in influx network |
-| [Internet Speedtest](https://github.com/kjake/internet-speedtest-docker) | - | runs in influx network |
+| Application | Port | URL | Optional |
+| ------------| ---- | --- | -------- |
+| [Portainer](https://github.com/portainer/portainer) | 9000 | http://localhost:9000 | |
+| [Heimdall Dashboard](https://github.com/linuxserver/Heimdall) | 80, 443 | http://localhost, https://localhost | |
+| [Pi-hole](https://github.com/pi-hole/docker-pi-hole) | 53, 8080 | http://localhost:8080 | |
+| [Homebridge](https://github.com/homebridge/homebridge) | 8581 | http://localhost:8581 | |
+| [Deconz Conbee](https://github.com/deconz-community/deconz-docker) | 8888, 8443 | http://localhost:8888, https://localhost:8443 | |
+| [Plex](https://github.com/linuxserver/docker-plex) | 32400 | http://localhost:32400/web/index.html | yes |
+| [CloudCmd](https://github.com/coderaiser/cloudcmd) | 8008 | http://localhost:8008 | yes |
+| [pyLoad](https://github.com/linuxserver/docker-pyload) | 8088 | http://localhost:8088 | |
+| [Nextcloud](https://github.com/nextcloud/server) | 8081 | http://localhost:8081 | yes |
+| [Home-Assistant](https://github.com/home-assistant/core)(1) | 8123 | http://localhost:8123 | yes |
+| [Grafana](https://github.com/grafana/grafana) | 3000 | http://localhost:3000 <br>runs in influx network | |
+| [InfluxDB](https://github.com/influxdata/influxdb) | - | runs in influx network | |
+| [Telegraf](https://github.com/influxdata/telegraf) | - | runs in influx network | |
+| [Internet Speedtest](https://github.com/kjake/internet-speedtest-docker) | - | runs in influx network | yes |
 
-1. In order to expose your external devices using Zigbee/Z-Wave dongles to the Home Assistant container, you can read this [guide](https://www.home-assistant.io/docs/installation/docker/#exposing-devices)
+Optional means that the application is not necessary for the NAS to work properly. It is just a nice to have. If you want to use it, you need to uncomment the related lines in the `docker-compose.yml` file.
+
+(1) In order to expose your external devices using Zigbee/Z-Wave dongles to the Home Assistant container, you can read this [guide](https://www.home-assistant.io/docs/installation/docker/#exposing-devices)
 
 ## CloudflareD
 

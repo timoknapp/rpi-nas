@@ -27,32 +27,48 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
 
-  plex: # Plex Media Server
-    image: linuxserver/plex
-    container_name: plex
-    network_mode: host
+  pihole: # Pi-hole
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8080:80/tcp"
     environment:
-      - PUID=${USER_ID}
-      - PGID=${GROUP_ID}
-      - VERSION=docker
-      - UMASK_SET=022 #optional
-      - PLEX_CLAIM= #optional
+      TZ: 'Europe/Berlin'
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+    # Volumes store your data between container upgrades
     volumes:
-      - ${PATH_TO_DISK}/appdata/plex:/config
-      - ${PATH_TO_DISK}/media/tv:/tv
-      - ${PATH_TO_DISK}/media/movies:/movies
-      - ${PATH_TO_DISK}/media/music:/music
-      - ${PATH_TO_DISK}/appdata/plex:/transcode
+      - ${PATH_TO_DISK}/appdata/pihole/config:/etc/pihole'
+      - ${PATH_TO_DISK}/appdata/pihole/dnsmasq.d:/etc/dnsmasq.d'
     restart: unless-stopped
 
-  cloudcmd: # UI based filemanager
-    image: coderaiser/cloudcmd:latest-alpine
-    container_name: cloudcmd
-    ports:
-      - 8008:8000
-    volumes:
-      - ~:/root
-      - /:/mnt/fs
+  # plex: # Plex Media Server
+  #   image: linuxserver/plex
+  #   container_name: plex
+  #   network_mode: host
+  #   environment:
+  #     - PUID=${USER_ID}
+  #     - PGID=${GROUP_ID}
+  #     - VERSION=docker
+  #     - UMASK_SET=022 #optional
+  #     - PLEX_CLAIM= #optional
+  #   volumes:
+  #     - ${PATH_TO_DISK}/appdata/plex:/config
+  #     - ${PATH_TO_DISK}/media/tv:/tv
+  #     - ${PATH_TO_DISK}/media/movies:/movies
+  #     - ${PATH_TO_DISK}/media/music:/music
+  #     - ${PATH_TO_DISK}/appdata/plex:/transcode
+  #   restart: unless-stopped
+
+  # cloudcmd: # UI based filemanager
+  #   image: coderaiser/cloudcmd:latest-alpine
+  #   container_name: cloudcmd
+  #   ports:
+  #     - 8008:8000
+  #   volumes:
+  #     - ~:/root
+  #     - /:/mnt/fs
 
   pyload: # pyload - download manager for your NAS
     image: linuxserver/pyload
@@ -62,45 +78,77 @@ services:
       - PGID=${GROUP_ID}
       - TZ=Europe/Berlin
     volumes:
-      - ${PATH_TO_DISK}/appdata:/config
+      - ${PATH_TO_DISK}/appdata/pyload:/config
       - ${PATH_TO_DISK}/downloads:/downloads
     ports:
       - 8088:8000
       - 7227:7227 #optional
     restart: unless-stopped
 
-  nextcloud_postgres: # DB for Nextcloud
-    image: postgres
-    container_name: nextcloud_postgres
-    restart: always
-    volumes:
-      - nextcloud_postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=
-      - POSTGRES_DATABASE=nextcloud
-      - POSTGRES_USER=nextcloud
+  # nextcloud_postgres: # DB for Nextcloud
+  #   image: postgres
+  #   container_name: nextcloud_postgres
+  #   restart: always
+  #   volumes:
+  #     - nextcloud_postgres:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_PASSWORD=
+  #     - POSTGRES_DATABASE=nextcloud
+  #     - POSTGRES_USER=nextcloud
 
-  nextcloud: # Nextcloud
-    image: nextcloud
-    container_name: nextcloud
-    ports:
-      - 8081:80
-    links:
-      - nextcloud_postgres
+  # nextcloud: # Nextcloud
+  #   image: nextcloud
+  #   container_name: nextcloud
+  #   ports:
+  #     - 8081:80
+  #   links:
+  #     - nextcloud_postgres
+  #   volumes:
+  #     - ${PATH_TO_DISK}/nextcloud:/var/www/html
+  #   restart: unless-stopped
+
+  homebridge: # Homebridge
+    image: homebridge/homebridge:latest
+    network_mode: host
     volumes:
-      - ${PATH_TO_DISK}/nextcloud:/var/www/html
+      - ${PATH_TO_DISK}/appdata/homebridge:/homebridge
+    logging:
+      driver: json-file
+      options:
+        max-size: "10mb"
+        max-file: "1"
     restart: unless-stopped
 
-  homeassistant: # homeassistant
-    image: homeassistant/raspberrypi4-homeassistant:stable
-    container_name: home-assistant
-    environment:
-      - TZ=Europe/Berlin
+  deconz: # deCONZ
+    image: deconzcommunity/deconz
+    container_name: deconz
+    ports: 
+      - 8888:80
+      - 8443:443
     volumes:
-      - ${PATH_TO_DISK}/appdata/homeassistant:/config
-    ports:
-      - 8123:8123
+      - ${PATH_TO_DISK}/appdata/deconz:/opt/deCONZ
+    devices:
+      - /dev/ttyUSB0 # USB device for Conbee II
+    environment:
+      - DECONZ_WEB_PORT=8888
+      - DECONZ_WS_PORT=8443
+      - DEBUG_INFO=1
+      - DEBUG_APS=0
+      - DEBUG_ZCL=0
+      - DEBUG_ZDP=0
+      - DEBUG_OTA=0  
     restart: unless-stopped
+
+  # homeassistant: # homeassistant
+  #   image: homeassistant/raspberrypi4-homeassistant:stable
+  #   container_name: home-assistant
+  #   environment:
+  #     - TZ=Europe/Berlin
+  #   volumes:
+  #     - ${PATH_TO_DISK}/appdata/homeassistant:/config
+  #   ports:
+  #     - 8123:8123
+  #   restart: unless-stopped
 
   ## Monitoring Stack:
   telegraf:
@@ -140,21 +188,21 @@ services:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
     
-  speedtest:
-    image: kjake/internet-speedtest-docker:speedtest
-    container_name: speedtest
-    depends_on:
-      - influxdb
-    networks:
-      - influxdb
-    environment:
-      - TEST_INTERVAL=3600
-    restart: unless-stopped
+  # speedtest:
+  #   image: kjake/internet-speedtest-docker:speedtest
+  #   container_name: speedtest
+  #   depends_on:
+  #     - influxdb
+  #   networks:
+  #     - influxdb
+  #   environment:
+  #     - TEST_INTERVAL=3600
+  #   restart: unless-stopped
 
 volumes:
   portainer_data:
-  nextcloud_postgres:
-  nextcloud:
+  # nextcloud_postgres:
+  # nextcloud:
   grafana-storage:
   influxdb-storage:
 
