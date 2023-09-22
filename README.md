@@ -123,7 +123,6 @@ LABEL=qnap /mnt/qnap ext4 nofail,x-systemd.device-timeout=1ms 0 0
 
 More documentation can be found [here](https://raspberrypi-guide.github.io/filesharing/mounting-external-drive#set-up-automatic-mounting).
 
-
 ### Setup SMB Server
 
 ```bash
@@ -290,10 +289,10 @@ Following show all the applications of the `docker-compose.yml` related to their
 | [pyLoad](https://github.com/linuxserver/docker-pyload) | 8088 | http://localhost:8088 | |
 | [Nextcloud](https://github.com/nextcloud/server) | 8081 | http://localhost:8081 | yes |
 | [Home-Assistant](https://github.com/home-assistant/core)(1) | 8123 | http://localhost:8123 | yes |
-| [Grafana](https://github.com/grafana/grafana) | 3000 | http://localhost:3000 <br>runs in influx network | |
-| [InfluxDB](https://github.com/influxdata/influxdb) | - | runs in influx network | |
-| [Telegraf](https://github.com/influxdata/telegraf) | - | runs in influx network | |
-| [Internet Speedtest](https://github.com/kjake/internet-speedtest-docker) | - | runs in influx network | yes |
+| [Grafana](https://github.com/grafana/grafana) | 3000 | http://localhost:3000 | |
+| [InfluxDB](https://github.com/influxdata/influxdb) | - | | |
+| [Telegraf](https://github.com/influxdata/telegraf) | - | | |
+| [Internet Speedtest](https://github.com/kjake/internet-speedtest-docker) | - | | yes |
 
 Optional means that the application is not necessary for the NAS to work properly. It is just a nice to have. If you want to use it, you need to uncomment the related lines in the `docker-compose.yml` file.
 

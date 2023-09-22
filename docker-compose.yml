@@ -160,7 +160,7 @@ services:
     networks:
       - influxdb
     volumes:
-      - ./monitoring/telegraf:/etc/telegraf
+      - ${PATH_TO_DISK}/appdata/monitoring/telegraf:/etc/telegraf
     restart: always
 
   influxdb:
@@ -185,7 +185,7 @@ services:
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
     volumes:
       - grafana-storage:/var/lib/grafana
-      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ${PATH_TO_DISK}/appdata/monitoring/grafana:/etc/grafana/provisioning
     restart: unless-stopped
     
   # speedtest:
