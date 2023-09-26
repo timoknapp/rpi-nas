@@ -39,8 +39,8 @@ services:
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:
-      - ${PATH_TO_DISK}/appdata/pihole/config:/etc/pihole'
-      - ${PATH_TO_DISK}/appdata/pihole/dnsmasq.d:/etc/dnsmasq.d'
+      - ${PATH_TO_DISK}/appdata/pihole/config:/etc/pihole
+      - ${PATH_TO_DISK}/appdata/pihole/dnsmasq.d:/etc/dnsmasq.d
     restart: unless-stopped
 
   # plex: # Plex Media Server
