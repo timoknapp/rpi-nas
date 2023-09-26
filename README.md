@@ -224,7 +224,9 @@ More documentation can be found [here](https://ovechkin.xyz/blog/2021-12-13-usin
 
 ### Other useful things
 
-#### HDD Spin Down Times
+#### HD-Idle
+
+Setup HDD spin down times to save energy and increase lifetime of the disks.
 
 ```bash
 # Install hd-idle
@@ -241,6 +243,9 @@ sudo systemctl restart hd-idle
 
 # Check if hd-idle is running
 systemctl status hd-idle
+
+# Check if disks are spinning down
+cat /var/log/hd-idle.log
 ```
 
 More documentation can be found [here](https://www.htpcguides.com/spin-down-and-manage-hard-drive-power-on-raspberry-pi/)
@@ -331,15 +336,25 @@ Optional means that the application is not necessary for the NAS to work properl
 - Open `http://IP-OF-YOUR-PI:8080/admin` and login with the password you set in the `docker-compose.yml` file.
 - Go to `Settings` -> `DNS` -> `Interface settings` and change the setting from `Allow only local requests` to `Permit all origins` -> `Save`. (This could already be set by the environment variable [`DNSMASQ_LISTENING`](https://github.com/pi-hole/docker-pi-hole?tab=readme-ov-file#optional-variables) in the `docker-compose.yml` file)
   - This will add the following line in `/etc/dnsmasq.d/01-pihole.conf`:
+
   ```bash
   except-interface=nonexisting
   ```
+
   > Since the Pi-hole is running in a docker container, it is not possible to use the `Allow only local requests` setting as its only considering the local network of the container.
-- Disable query logging in `Settings` -> `Privacy` -> `Anonymouse mode` -> `Apply`.
-  - This will add the following line in `/etc/pihole/pihole-FTL.conf`:
+- Go to `Settings` -> `System` -> `Disable Query Logging`.
+  > Since we want to use the Pi-hole as a DNS server only, we don't need to log any queries. This will reduce the amount of writes to the disk and will allow us to run Pi-hole in anonymous mode.
+- Add the following lines to `/etc/pihole/pihole-FTL.conf`:
+
   ```bash
-  PRIVACYLEVEL=3
+  PRIVACYLEVEL=3 #; 0=show everything, 1=hide domains, 2=hide domains and clients, 3=anonymous mode
+  #; MAXLOGAGE=24.0 #; up to how many hours of logs to show in pihole web interface
+  MAXDBDAYS=30 #; delete entries older than 30 days. Setting this to 0 will disable the database.
+  DBINTERVAL=30.0 #; write to the pihole-FTL.db file every 30 minutes (lets the HDD spin down)
+  #; DBFILE=/etc/pihole/pihole-FTL.db #; path to the database file. Setting this to DBFILE= disables the database altogether
   ```
+  
+- Restart Pi-hole container!
 
 ## CloudflareD
 
