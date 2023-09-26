@@ -12,6 +12,34 @@ Setup your own NAS on a Raspberry Pi.
 
 ![grafana](screenshots/grafana.jpg)
 
+## Table of Contents
+
+- [Hardware](#hardware)
+- [OS](#os)
+  * [SSH](#ssh)
+- [SMB Shares](#smb-shares)
+  * [Format Drives](#format-drives)
+  * [Mount Drives](#mount-drives)
+    + [Prepare Disks](#prepare-disks)
+    + [Mount Disks manually](#mount-disks-manually)
+    + [Mount Disks automatically](#mount-disks-automatically)
+  * [Setup SMB Server](#setup-smb-server)
+  * [Setup TimeMachine Share](#setup-timemachine-share)
+  * [Other useful things](#other-useful-things)
+    + [HDD Spin Down Times](#hdd-spin-down-times)
+    + [Log2Ram](#log2ram)
+    + [Check Disk Utilization](#check-disk-utilization)
+- [Docker Setup](#docker-setup)
+  * [Install Docker](#install-docker)
+  * [Prepare Docker Environment](#prepare-docker-environment)
+    + [1. Clone Repository](#1-clone-repository)
+    + [2. Configure your Setup](#2-configure-your-setup)
+    + [3. Run Compose-Stack](#3-run-compose-stack)
+    + [4. Try it out](#4-try-it-out)
+  * [Components](#components)
+    + [Configure Pi-hole](#configure-pi-hole)
+- [CloudflareD](#cloudflared)
+
 ## Hardware
 
 - [Raspberry Pi 4 4GB](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/)
