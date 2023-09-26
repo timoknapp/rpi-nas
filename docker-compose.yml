@@ -169,7 +169,7 @@ services:
     image: influxdb:latest
     container_name: influxdb
     networks:
-      influxdb:
+      - influxdb
     volumes:
       - influxdb-storage:/var/lib/influxdb
     restart: unless-stopped
