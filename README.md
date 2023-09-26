@@ -298,6 +298,13 @@ Optional means that the application is not necessary for the NAS to work properl
 
 (1) In order to expose your external devices using Zigbee/Z-Wave dongles to the Home Assistant container, you can read this [guide](https://www.home-assistant.io/docs/installation/docker/#exposing-devices)
 
+#### Configure Pi-hole
+
+- Open `http://IP-OF-YOUR-PI:8080/admin` and login with the password you set in the `docker-compose.yml` file.
+- Go to `Settings` -> `DNS` -> `Interface settings` and change the setting from `Allow only local requests` to `Permit all origins` -> `Save`. 
+  > Since the Pi-hole is running in a docker container, it is not possible to use the `Allow only local requests` setting as its only considering the local network of the container.
+- Disable query logging in `Settings` -> `Privacy` -> `Anonymouse mode` -> `Apply`.
+
 ## CloudflareD
 
 Tdb.
