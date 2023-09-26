@@ -36,6 +36,8 @@ services:
       - "8080:80/tcp"
     environment:
       TZ: 'Europe/Berlin'
+      DNSMASQ_LISTENING: 'all' # set this to all if pihole will only be accessible within your local network (non internet facing). https://github.com/pi-hole/docker-pi-hole?tab=readme-ov-file#optional-variables
+      QUERY_LOGGING: 'false' # Disable Query logging. https://github.com/pi-hole/docker-pi-hole?tab=readme-ov-file#optional-variables
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:

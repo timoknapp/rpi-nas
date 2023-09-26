@@ -301,9 +301,17 @@ Optional means that the application is not necessary for the NAS to work properl
 #### Configure Pi-hole
 
 - Open `http://IP-OF-YOUR-PI:8080/admin` and login with the password you set in the `docker-compose.yml` file.
-- Go to `Settings` -> `DNS` -> `Interface settings` and change the setting from `Allow only local requests` to `Permit all origins` -> `Save`. 
+- Go to `Settings` -> `DNS` -> `Interface settings` and change the setting from `Allow only local requests` to `Permit all origins` -> `Save`. (This could already be set by the environment variable [`DNSMASQ_LISTENING`](https://github.com/pi-hole/docker-pi-hole?tab=readme-ov-file#optional-variables) in the `docker-compose.yml` file)
+  - This will add the following line in `/etc/dnsmasq.d/01-pihole.conf`:
+  ```bash
+  except-interface=nonexisting
+  ```
   > Since the Pi-hole is running in a docker container, it is not possible to use the `Allow only local requests` setting as its only considering the local network of the container.
 - Disable query logging in `Settings` -> `Privacy` -> `Anonymouse mode` -> `Apply`.
+  - This will add the following line in `/etc/pihole/pihole-FTL.conf`:
+  ```bash
+  PRIVACYLEVEL=3
+  ```
 
 ## CloudflareD
 
