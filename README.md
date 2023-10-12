@@ -26,7 +26,7 @@ Setup your own NAS on a Raspberry Pi.
   * [Setup SMB Server](#setup-smb-server)
   * [Setup TimeMachine Share](#setup-timemachine-share)
   * [Other useful things](#other-useful-things)
-    + [HDD Spin Down Times](#hdd-spin-down-times)
+    + [HD-Idle](#hd-idle)
     + [Log2Ram](#log2ram)
     + [Check Disk Utilization](#check-disk-utilization)
 - [Docker Setup](#docker-setup)
@@ -315,6 +315,7 @@ Following show all the applications of the `docker-compose.yml` related to their
 | [Portainer](https://github.com/portainer/portainer) | 9000 | http://localhost:9000 | |
 | [Heimdall Dashboard](https://github.com/linuxserver/Heimdall) | 80, 443 | http://localhost, https://localhost | |
 | [Pi-hole](https://github.com/pi-hole/docker-pi-hole) | 53, 8080 | http://localhost:8080 | |
+| [CloudflareD](https://github.com/cloudflare/cloudflared) | - | | |
 | [Homebridge](https://github.com/homebridge/homebridge) | 8581 | http://localhost:8581 | |
 | [Deconz Conbee](https://github.com/deconz-community/deconz-docker) | 8888, 8443 | http://localhost:8888, https://localhost:8443 | |
 | [Plex](https://github.com/linuxserver/docker-plex) | 32400 | http://localhost:32400/web/index.html | yes |
@@ -349,13 +350,17 @@ Optional means that the application is not necessary for the NAS to work properl
   ```bash
   PRIVACYLEVEL=3 #; 0=show everything, 1=hide domains, 2=hide domains and clients, 3=anonymous mode
   #; MAXLOGAGE=24.0 #; up to how many hours of logs to show in pihole web interface
-  MAXDBDAYS=30 #; delete entries older than 30 days. Setting this to 0 will disable the database.
-  DBINTERVAL=30.0 #; write to the pihole-FTL.db file every 30 minutes (lets the HDD spin down)
+  MAXDBDAYS=7 #; delete entries older than 30 days. Setting this to 0 will disable the database.
+  DBINTERVAL=60.0 #; write to the pihole-FTL.db file every 30 minutes (lets the HDD spin down)
   #; DBFILE=/etc/pihole/pihole-FTL.db #; path to the database file. Setting this to DBFILE= disables the database altogether
   ```
   
 - Restart Pi-hole container!
 
-## CloudflareD
+#### Configure CloudflareD
 
 Tdb.
+
+- Add your Cloudflare API Token to the `TUNNEL_TOKEN` variable in the `docker-compose.yml` file.
+
+More configuration options can be found [here](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) or [here](https://docs.pi-hole.net/guides/dns/cloudflared/).
