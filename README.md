@@ -117,6 +117,9 @@ sudo e2label /dev/sdX1 qnap
 #### Mount Disks manually
 
 ```bash
+# Change Owner of /mnt directory (Otherwise SMB Shares cannot be mounted)
+sudo chown root:users /mnt
+
 # Create Mount Points
 sudo mkdir /mnt/qnap
 
@@ -146,7 +149,8 @@ sudo blkid
 # Edit /etc/fstab
 sudo nano /etc/fstab
 # Add the following lines to /etc/fstab
-LABEL=qnap /mnt/qnap ext4 nofail,x-systemd.device-timeout=1ms 0 0
+#LABEL=qnap /mnt/qnap ext4 nofail,x-systemd.device-timeout=1ms 0 0
+LABEL=qnap /mnt/qnap ext4 defaults 0 0
 ```
 
 More documentation can be found [here](https://raspberrypi-guide.github.io/filesharing/mounting-external-drive#set-up-automatic-mounting).
@@ -164,6 +168,8 @@ sudo apt-get install samba samba-common-bin
 sudo nano /etc/samba/smb.conf
 
 # Add Configuration to smb.conf (replace $USER with your username)
+Comment out all lines under "Share Definitions" and add the following lines:
+
 [nas]
     path = /mnt/qnap/nas
     writeable = Yes
@@ -185,6 +191,9 @@ sudo smbpasswd -a $USER
 
 # Restart Samba service
 sudo systemctl restart smbd
+
+# Check SMB Status including Version
+sudo smbstatus
 ```
 
 More documentation can be found [here](https://pimylifeup.com/raspberry-pi-samba/) and [here](https://www.jeffgeerling.com/blog/2021/htgwa-create-samba-smb-share-on-raspberry-pi).
@@ -192,29 +201,39 @@ More documentation can be found [here](https://pimylifeup.com/raspberry-pi-samba
 ### Setup TimeMachine Share
 
 ```bash
+# Check if Avahi service is running
+sudo systemctl status avahi-daemon
+
+# If the `avahi-daemon` is not installed, install it with the following command:
+sudo apt install avahi-daemon
+
 sudo nano /etc/avahi/services/samba.service
 
 # Add Configuration to samba.service
-  <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
-  <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-  <service-group>
-    <name replace-wildcards="yes">%h</name>
-    <service>
-      <type>_smb._tcp</type>
-      <port>445</port>
-    </service>
-    <service>
-      <type>_device-info._tcp</type>
-      <port>9</port>
-      <txt-record>model=Xserve1,1</txt-record>
-    </service>
-    <service>
-      <type>_adisk._tcp</type>
-      <port>9</port>
-      <txt-record>dk0=adVN=timemachine,adVF=0x82</txt-record>
-      <txt-record>sys=adVF=0x100</txt-record>
-    </service>
-  </service-group>
+# You can choose different Icons of your Server based on this file
+# /System/Library/CoreServices/CoreTypes.bundle/Contents/Info.plist
+# https://simonwheatley.co.uk/2008/04/avahi-finder-icons/
+<?xml version="1.0" standalone='no'?><!--*-nxml-*-->
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+  <name replace-wildcards="yes">%h</name>
+  <service>
+    <type>_smb._tcp</type>
+    <port>445</port>
+  </service>
+  <service>
+    <type>_device-info._tcp</type>
+    <port>9</port>
+    <txt-record>model=RackMac3,1</txt-record>
+    <txt-record>model=MacPro7,1@ECOLOR=226,226,224</txt-record>
+  </service>
+  <service>
+    <type>_adisk._tcp</type>
+    <port>9</port>
+    <txt-record>dk0=adVN=timemachine,adVF=0x82</txt-record>
+    <txt-record>sys=adVF=0x100</txt-record>
+  </service>
+</service-group>
 
 # Restart Avahi service
 sudo systemctl restart avahi-daemon
@@ -237,6 +256,19 @@ sudo nano /etc/default/hd-idle
 # Change line according to your available disks. Replace X with the disk letter.
 # The following line will set the default to 0 and the custom idle time for disk sdX to 8 minutes. Save File afterwards.
 HD_IDLE_OPTS="-i 0 -a sdX -i 480 -l /var/log/hd-idle.log"
+
+# Configure hd-idle service
+sudo nano /lib/systemd/system/hd-idle.service
+
+# Add the following lines in the "[Service]" section
+# This will make sure that the service will be restarted in case of errors.
+[Service]
+...
+Restart=always
+RestartSec=3
+
+# Restart Systemd Deamon
+sudo systemctl daemon-reload
 
 # Restart hd-idle
 sudo systemctl restart hd-idle
